@@ -1,0 +1,7 @@
+language: haskell
+before_install:
+  - cd MusicBrainz-libdiscid
+install:
+  - cabal install containers
+script:
+  - cabal configure && cabal build
