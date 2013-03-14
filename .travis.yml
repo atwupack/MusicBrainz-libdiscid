@@ -1,7 +1,9 @@
 language: haskell
-before_install:
-  - cd MusicBrainz-libdiscid
 install:
   - cabal install containers
+  - cabal install pretty-show
 script:
+  - cd MusicBrainz-libdiscid
+  - cabal configure && cabal build && cabal install
+  - cd MusicBrainz-libdiscid-test
   - cabal configure && cabal build
