@@ -1,0 +1,38 @@
+This library is a C port of the DiscID-related code from libmusicbrainz-2
+written by Robert Kaye et al.
+
+The following people have contributed to libdiscid:
+
+   Matthias Friedrich <matt at mafr dot de>
+    - Created the library interface and documented it.
+    - Wrote the operating system independent parts of libdiscid.
+    - Ported the DiscID and linux code.
+
+   Lukáš Lalinský <lalinsky at gmail dot com>
+    - Ported the win32 code and added a Makefile for MSVC.
+    - Added FreeDB support and a test program.
+    - Several other useful changes.
+
+   Robert Kaye <rob at eorbit dot net>
+    - Invented and originally implemented the DiscID algorithm.
+    - Ported the darwin code.
+
+   Patrick Hurrelmann <outi at bytephobia dot de>
+    - Implemented and tested FreeBSD support.
+
+   Anton Yabchinskiy <arn at bestmx dot ru>
+    - Implemented and tested OpenBSD support.
+
+   Shunsuke Kuroda <kronox at lifewithsolaris dot jp>
+    - Implemented and tested Solaris/OpenSolaris support.
+
+   Nicholas Humphrey
+    - Implemented ISRC reading on Darwin
+
+   Johannes Dewender <brainz at JonnyJD dot net>
+    - Implemented ISRC reading on Linux
+    - Implemented features API and generic platform
+    - Completed CMake support on all platforms
+      Various Autotools fixes, switch to libtool -version-number
+      versioninfo resource for DLL
+

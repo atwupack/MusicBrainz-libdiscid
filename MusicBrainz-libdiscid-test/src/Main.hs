@@ -17,7 +17,7 @@ module Main (
     main
 ) where
 
-import MusicBrainz.DiscId
+import Sound.MusicBrainz.DiscId
 import Text.Show.Pretty
 
 
