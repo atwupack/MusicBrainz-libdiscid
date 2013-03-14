@@ -1,0 +1,20 @@
+name: MusicBrainz-libdiscid
+version: 0.4.1
+cabal-version: >=1.2
+build-type: Simple
+license: AllRightsReserved
+license-file: ""
+description:  
+data-dir: ""
+ 
+library
+    build-depends: base -any, containers -any
+    exposed-modules: MusicBrainz.DiscId
+    exposed: True
+    buildable: True
+    cc-options: -DHAVE_CONFIG_H
+    c-sources: libdiscid/src/base64.c libdiscid/src/disc.c
+               libdiscid/src/disc_linux.c libdiscid/src/sha1.c
+    include-dirs: libdiscid/include
+    hs-source-dirs: src
+ 
