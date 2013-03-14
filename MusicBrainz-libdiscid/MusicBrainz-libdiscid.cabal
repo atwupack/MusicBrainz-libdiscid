@@ -4,7 +4,10 @@ cabal-version: >=1.2
 build-type: Simple
 license: AllRightsReserved
 license-file: ""
+maintainer: André Twupack
+bug-reports: https://github.com/atwupack/MusicBrainz-libdiscid/issues
 description:  
+author: André Twupack
 data-dir: ""
  
 library
