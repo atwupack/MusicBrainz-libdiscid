@@ -5,5 +5,5 @@ install:
 script:
   - cd MusicBrainz-libdiscid
   - cabal configure && cabal build && cabal install
-  - cd MusicBrainz-libdiscid-test
+  - cd ../MusicBrainz-libdiscid-test
   - cabal configure && cabal build
