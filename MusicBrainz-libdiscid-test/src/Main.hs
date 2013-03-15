@@ -1,4 +1,3 @@
-{-# LANGUAGE CPP, TemplateHaskell #-}
 -----------------------------------------------------------------------------
 --
 -- Module      :  Main
@@ -22,6 +21,10 @@ import Text.Show.Pretty
 
 
 main = do
+    getFeatureList >>= print
+    print $ hasFeature Read
+    print $ hasFeature MCN
+    print $ hasFeature ISRC
     version <- getVersionString
     putStrLn version
     dev <- getDefaultDevice

@@ -18,7 +18,7 @@ extra-source-files: COPYING libdiscid/AUTHORS libdiscid/COPYING
                     libdiscid/include/discid/*.h libdiscid/src/*.c libdiscid/src/*.h
  
 library
-    build-depends: base >=4 && <5, containers -any
+    build-depends: base >=4 && <5, containers -any, vector >0.10
     exposed-modules: Sound.MusicBrainz.DiscId
     exposed: True
     buildable: True
