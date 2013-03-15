@@ -1,7 +1,6 @@
 language: haskell
 install:
-  - cabal install containers
-  - cabal install pretty-show
+  - cabal install containers pretty-show vector
 script:
   - cd MusicBrainz-libdiscid
   - cabal configure && cabal build && cabal install
