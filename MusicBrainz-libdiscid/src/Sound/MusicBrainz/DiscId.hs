@@ -155,11 +155,11 @@ createTrack handle num = do
     length <- fromIntegral <$> discid_get_track_length handle num
     offset <- fromIntegral <$> discid_get_track_offset handle num
     isrc <- discid_get_track_isrc handle num >>= peekCString
-    return $ (fromIntegral num, Track (fromIntegral num) offset length isrc)
+    return (fromIntegral num, Track (fromIntegral num) offset length isrc)
 
 createTOC :: DiscIdHandle -> IO TOC
 createTOC handle = do
     first <- discid_get_first_track_num handle
     last <- discid_get_last_track_num handle
-    tracks <- mapM (\num -> createTrack handle num) [first..last]
+    tracks <- mapM (createTrack handle) [first..last]
     return $ TOC (fromIntegral first) (fromIntegral last) (fromList tracks)
