@@ -23,7 +23,13 @@ library
     exposed: True
     buildable: True
     cc-options: -DHAVE_CONFIG_H
-    c-sources: libdiscid/src/base64.c libdiscid/src/disc.c
+    if os(windows)
+        c-sources: libdiscid/src/base64.c libdiscid/src/disc.c
+               libdiscid/src/disc_win32_new.c libdiscid/src/sha1.c
+               libdiscid/src/disc_win32.c
+        extra-libraries: winmm
+    if os(linux)
+        c-sources: libdiscid/src/base64.c libdiscid/src/disc.c
                libdiscid/src/disc_linux.c libdiscid/src/sha1.c
     include-dirs: libdiscid/include
     hs-source-dirs: src
