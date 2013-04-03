@@ -45,24 +45,44 @@ import Data.Map (Map, fromList)
 import Control.Monad (mapM)
 import Control.Applicative ((<$>))
 import qualified Data.Vector.Storable.Mutable as M
+import System.IO.Unsafe (unsafePerformIO)
 
+-- | The information for a disc
+data DiscId = DiscId {
+    -- | MusicBrainz DiscID
+    mbId :: String,
+    -- | FreeDB DiscID
+    freedbId :: String,
+    -- | URL for submitting the DiscID to MusicBrainz
+    submissionUrl :: String,
+    -- | URL for retrieving CD information from MusicBrainz' web service
+    webserviceUrl :: String,
+    -- | The length of the disc in sectors
+    sectors :: Int,
+    -- | The TOC of the disc
+    toc :: TOC,
+    -- | The Media Catalogue Number for the disc
+    mcn :: String} deriving Show
 
-data DiscId = DiscId {  mbId :: String,
-                        freedbId :: String,
-                        submissionUrl :: String,
-                        webserviceUrl :: String,
-                        sectors :: Int,
-                        toc :: TOC,
-                        mcn :: String} deriving Show
+-- | The TOC of a disc
+data TOC = TOC {
+    -- | The number of the first track on this disc
+    firstTrackNum :: Int,
+    -- | The number of the last track on this disc
+    lastTrackNum :: Int,
+    -- | The tracks on the disc
+    tracks :: Map Int Track} deriving Show
 
-data TOC = TOC {    firstTrackNum :: Int,
-                    lastTrackNum :: Int,
-                    tracks :: Map Int Track} deriving Show
-
-data Track = Track {    num :: Int,
-                        offset :: Int,
-                        length :: Int,
-                        isrc :: String} deriving Show
+-- | The information for a track
+data Track = Track {
+    -- | The track number
+    num :: Int,
+    -- | The sector offset of a track
+    offset :: Int,
+    -- | The length of a track in sectors
+    length :: Int,
+    -- | The ISRC for a track
+    isrc :: String} deriving Show
 
 type DiscIdHandle = Ptr ()
 
@@ -86,10 +106,20 @@ foreign import ccall unsafe discid_get_track_isrc :: DiscIdHandle -> CInt -> IO 
 foreign import ccall unsafe discid_has_feature :: CInt -> CInt
 foreign import ccall unsafe discid_get_feature_list :: Ptr CString -> IO ()
 
-data DiscIdFeature = Read | MCN | ISRC | Unknown deriving Show
+-- | Features procided by libdiscid
+data DiscIdFeature
+    -- | Read disc TOC and calculate IDs
+    = Read
+    -- | Get Media Catalogue Number
+    | MCN
+    -- | Get ISRC
+    | ISRC
+    -- | Unknown feature
+    | Unknown deriving Show
 
-getFeatureList :: IO [DiscIdFeature]
-getFeatureList = do
+-- | A list of features supported by the current platform
+getFeatureList :: [DiscIdFeature]
+getFeatureList = unsafePerformIO $ do
     arr <- M.new 32
     M.unsafeWith arr discid_get_feature_list
     cp <- mapM (M.read arr) [0..31]
@@ -108,22 +138,23 @@ toBool ib
     | ib == 0 = False
     | otherwise = True
 
+-- | Check if a certain feature is implemented on the current platform
 hasFeature :: DiscIdFeature -> Bool
 hasFeature Read =  toBool $ discid_has_feature 1
 hasFeature MCN =  toBool $ discid_has_feature 2
 hasFeature ISRC =  toBool $ discid_has_feature 4
 
 -- | Return the full version string of this library, including the name.
-getVersionString :: IO String -- ^ a string containing the version of libdiscid.
-getVersionString = discid_get_version_string >>= peekCString
+getVersionString :: String -- ^ a string containing the version of libdiscid.
+getVersionString = unsafePerformIO $ discid_get_version_string >>= peekCString
 
 -- | Return the name of the default disc drive for this operating system.
-getDefaultDevice :: IO String -- ^ a string containing an operating system dependent device identifier
-getDefaultDevice = discid_get_default_device >>= peekCString
+getDefaultDevice :: String -- ^ a string containing an operating system dependent device identifier
+getDefaultDevice = unsafePerformIO $ discid_get_default_device >>= peekCString
 
 -- | Read the disc in the default CD-ROM/DVD-ROM drive.
 readFromDefaultCd :: IO (Either String DiscId)
-readFromDefaultCd = getDefaultDevice >>= readFromCd
+readFromDefaultCd = readFromCd getDefaultDevice
 
 -- | Read the disc in the given CD-ROM/DVD-ROM drive.
 readFromCd :: String -> IO (Either String DiscId)

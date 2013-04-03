@@ -21,14 +21,12 @@ import Text.Show.Pretty
 
 
 main = do
-    getFeatureList >>= print
+    print getFeatureList
     print $ hasFeature Read
     print $ hasFeature MCN
     print $ hasFeature ISRC
-    version <- getVersionString
-    putStrLn version
-    dev <- getDefaultDevice
-    putStrLn dev
+    print getVersionString
+    print getDefaultDevice
     discId <- readFromDefaultCd
     putStrLn $ ppShow discId
 

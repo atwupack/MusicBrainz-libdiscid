@@ -1,5 +1,5 @@
 name: MusicBrainz-libdiscid
-version: 0.4.1.0
+version: 0.4.1.1
 cabal-version: >=1.6
 build-type: Simple
 license: LGPL
@@ -16,9 +16,9 @@ data-dir: ""
 extra-source-files: COPYING libdiscid/AUTHORS libdiscid/COPYING
                     libdiscid/README libdiscid/include/config.h
                     libdiscid/include/discid/*.h libdiscid/src/*.c libdiscid/src/*.h
- 
+
 library
-    build-depends: base >=4 && <5, containers -any, vector >0.10
+    build-depends: base >=4 && <5, containers >0.5, vector >0.10
     exposed-modules: Sound.MusicBrainz.DiscId
     exposed: True
     buildable: True
@@ -33,4 +33,4 @@ library
                libdiscid/src/disc_linux.c libdiscid/src/sha1.c
     include-dirs: libdiscid/include
     hs-source-dirs: src
- 
+
