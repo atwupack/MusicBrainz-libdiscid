@@ -1,5 +1,5 @@
 name: MusicBrainz-libdiscid
-version: 0.4.1.1
+version: 0.5.0.0
 cabal-version: >=1.6
 build-type: Simple
 license: LGPL
@@ -14,7 +14,7 @@ category: Audio, Sound, FFI
 author: André Twupack
 data-dir: ""
 extra-source-files: COPYING libdiscid/AUTHORS libdiscid/COPYING
-                    libdiscid/README libdiscid/include/config.h
+                    libdiscid/README
                     libdiscid/include/discid/*.h libdiscid/src/*.c libdiscid/src/*.h
 
 library
@@ -22,7 +22,6 @@ library
     exposed-modules: Sound.MusicBrainz.DiscId
     exposed: True
     buildable: True
-    cc-options: -DHAVE_CONFIG_H
     if os(windows)
         c-sources: libdiscid/src/base64.c libdiscid/src/disc.c
                libdiscid/src/disc_win32_new.c libdiscid/src/sha1.c
